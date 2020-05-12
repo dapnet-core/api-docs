@@ -1,0 +1,147 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Calls",
+    "version": "1.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "http://dapnetdc1.db0sda.ampr.org/"
+    }
+  ],
+  "paths": {
+    "/calls": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-calls",
+        "description": "All recently published calls.",
+        "requestBody": {
+          "description": ""
+        }
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-calls",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Creates and publishes a new call."
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "HTTP Authentication": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "Call": {
+        "title": "Call",
+        "type": "object",
+        "x-examples": {},
+        "description": "",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "data": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "recipients": {
+            "type": "object",
+            "properties": {
+              "pocsag": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ric": {
+                      "type": "integer"
+                    },
+                    "function": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 3
+                    },
+                    "": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "subscribers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "subscriber_groups": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "": {
+                "type": "string"
+              }
+            }
+          },
+          "distribution": {
+            "type": "object",
+            "properties": {
+              "transmitters": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "transmitter_groups": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "": {
+                "type": "string"
+              }
+            }
+          },
+          "local": {
+            "type": "boolean",
+            "default": "false"
+          },
+          "expires_on": {
+            "type": "string"
+          },
+          "": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "data",
+          "priority",
+          "recipients",
+          "distribution"
+        ]
+      }
+    }
+  },
+  "security": [
+    {
+      "HTTP Authentication": []
+    }
+  ]
+}
