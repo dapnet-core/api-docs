@@ -17,8 +17,10 @@
   "paths": {
     "/transmitters": {
       "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
+        "summary": "List all transmitters",
+        "tags": [
+          "transmitters"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -44,6 +46,24 @@
         },
         "operationId": "get-transmitters",
         "requestBody": {}
+      },
+      "post": {
+        "summary": "Create a transmitter",
+        "operationId": "post-transmitters",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transmitter"
+              }
+            }
+          }
+        }
       }
     },
     "/transmitters/{id}": {
@@ -58,8 +78,10 @@
         }
       ],
       "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
+        "summary": "Get a transmitter",
+        "tags": [
+          "transmitters"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -75,6 +97,92 @@
         "operationId": "get-transmitters-id",
         "description": "",
         "requestBody": {}
+      }
+    },
+    "/transmitters/_bootstrap": {
+      "post": {
+        "summary": "Bootstrap transmitter connection",
+        "operationId": "post-transmitters-bootstrap",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timeslots": {
+                      "type": "array",
+                      "maxItems": 16,
+                      "minItems": 16,
+                      "items": {
+                        "type": "boolean"
+                      }
+                    },
+                    "nodes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "host": {
+                            "type": "string",
+                            "format": "hostname"
+                          },
+                          "reachable": {
+                            "type": "boolean"
+                          },
+                          "last_seen": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": [
+          "transmitter-connection"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "callsign": {
+                    "type": "string",
+                    "description": "Transmitter callsign"
+                  },
+                  "auth_key": {
+                    "type": "string",
+                    "description": "Secret authentication key"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      },
+      "parameters": []
+    },
+    "/transmitters/_heartbeat": {
+      "post": {
+        "summary": "Transmitter connection heartbeat",
+        "operationId": "post-transmitters-_heartbeat",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   },
