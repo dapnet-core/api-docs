@@ -1,0 +1,198 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "transmitters",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://dapnetdc2.db0sda.ampr.org",
+      "description": "DC2"
+    },
+    {
+      "url": "http://dapnetdc3.db0sda.ampr.org",
+      "description": "DC3"
+    }
+  ],
+  "paths": {
+    "/transmitters": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "offset": {
+                      "type": "integer"
+                    },
+                    "rows": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Transmitter"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-transmitters",
+        "requestBody": {}
+      }
+    },
+    "/transmitters/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transmitter"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-transmitters-id",
+        "description": "",
+        "requestBody": {}
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "HTTP Authentication": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "Transmitter": {
+        "title": "Transmitter",
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Callsign"
+          },
+          "_rev": {
+            "type": "string",
+            "description": "Document Revision"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "auth_key": {
+            "type": "string",
+            "description": "Secret Authentication Key"
+          },
+          "coordinates": {
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "description": "[Latitude, Longitude]",
+            "items": {
+              "type": "number"
+            }
+          },
+          "power": {
+            "type": "integer",
+            "description": "Transmitter power in Watts"
+          },
+          "groups": {
+            "type": "array",
+            "description": "List of transmitter groups",
+            "items": {
+              "type": "string"
+            }
+          },
+          "owners": {
+            "type": "array",
+            "description": "List of owners",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "usage": {
+            "type": "string",
+            "enum": [
+              "personal",
+              "widerange"
+            ]
+          },
+          "aprs_broadcast": {
+            "type": "boolean"
+          },
+          "timeslots": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
+          },
+          "antenna": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "omni",
+                  "directional"
+                ]
+              },
+              "gain": {
+                "type": "integer"
+              },
+              "direction": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 360
+              }
+            }
+          },
+          "emergency_power": {
+            "type": "object",
+            "properties": {
+              "available": {
+                "type": "boolean"
+              },
+              "infinite": {
+                "type": "boolean"
+              },
+              "duration": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "required": [
+          "_id",
+          "enabled",
+          "auth_key",
+          "owners",
+          "usage",
+          "timeslots"
+        ]
+      }
+    }
+  }
+}
