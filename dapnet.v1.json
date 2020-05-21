@@ -451,11 +451,22 @@
     },
     "/rubrics": {
       "get": {
-        "summary": "Create",
+        "summary": "Get a rubric",
         "tags": [
           "rubrics"
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rubric"
+                }
+              }
+            }
+          }
+        },
         "operationId": "get-rubrics"
       },
       "put": {
@@ -468,7 +479,16 @@
         },
         "tags": [
           "rubrics"
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rubric"
+              }
+            }
+          }
+        }
       }
     },
     "/rubrics/{rubricId}/news": {
@@ -487,7 +507,18 @@
         "tags": [
           "rubrics"
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/News"
+                }
+              }
+            }
+          }
+        },
         "operationId": "get-rubrics-rubricId-news"
       }
     },
@@ -519,6 +550,9 @@
         "type": "object",
         "x-examples": {},
         "description": "",
+        "x-tags": [
+          "calls"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -597,9 +631,9 @@
             "default": "false",
             "description": "Create a local call that is only forwarded to transmitters connected to the current node"
           },
-          "expires_on": {
+          "expires_at": {
             "type": "string",
-            "description": "Datetime after which the call is discarded"
+            "format": "date"
           }
         },
         "required": [
@@ -607,9 +641,6 @@
           "priority",
           "recipients",
           "distribution"
-        ],
-        "x-tags": [
-          "calls"
         ]
       },
       "Transmitter": {
@@ -720,6 +751,129 @@
         ],
         "x-tags": [
           "transmitters"
+        ]
+      },
+      "Rubric": {
+        "title": "Rubrics",
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Rubric name"
+          },
+          "_rev": {
+            "type": "string",
+            "description": "Document Revision"
+          },
+          "description": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "number": {
+            "type": "integer"
+          },
+          "function": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "owners": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "distribution": {
+            "type": "object",
+            "properties": {
+              "transmitters": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "transmitter_groups": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "defaults": {
+            "type": "object",
+            "properties": {
+              "expiration": {
+                "type": "integer"
+              },
+              "priority": {
+                "type": [
+                  "string",
+                  "integer"
+                ]
+              }
+            }
+          },
+          "cyclic_transmit": {
+            "type": "object",
+            "properties": {
+              "interval": {
+                "type": "integer"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "enabled": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "required": [
+          "_id",
+          "label",
+          "number",
+          "function",
+          "owners"
+        ]
+      },
+      "News": {
+        "title": "News",
+        "type": "object",
+        "description": "",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Rubric name"
+          },
+          "items": {
+            "type": "array",
+            "minItems": 10,
+            "maxItems": 10,
+            "items": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string"
+                },
+                "priority": {
+                  "type": "integer"
+                },
+                "expires_at": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            }
+          }
+        },
+        "required": [
+          "_id"
         ]
       }
     },
