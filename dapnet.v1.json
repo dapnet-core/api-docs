@@ -52,7 +52,7 @@
         }
       },
       "post": {
-        "summary": "",
+        "summary": "Create a call",
         "operationId": "post-calls",
         "responses": {
           "200": {
@@ -65,6 +65,30 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Call"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "data": "DL0ABC: Hello World",
+                    "priority": 4,
+                    "recipients": {
+                      "subscribers": [
+                        "dl0xyz",
+                        "dl1xyz"
+                      ]
+                    },
+                    "distribution": {
+                      "transmitters": [
+                        "db0wa"
+                      ],
+                      "transmitter_groups": [
+                        "dl.nw",
+                        "dl.bw"
+                      ]
+                    },
+                    "expires_on": "2020-08-31T13:37+00:00"
+                  }
+                }
               }
             }
           },
