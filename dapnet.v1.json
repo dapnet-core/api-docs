@@ -561,7 +561,9 @@
           },
           "data": {
             "type": "string",
-            "description": "Payload of the call"
+            "description": "Payload of the call",
+            "minLength": 1,
+            "maxLength": 80
           },
           "priority": {
             "type": "integer",
@@ -633,7 +635,7 @@
           },
           "expires_at": {
             "type": "string",
-            "format": "date"
+            "format": "date-time"
           }
         },
         "required": [
@@ -856,14 +858,18 @@
               "type": "object",
               "properties": {
                 "data": {
-                  "type": "string"
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80
                 },
                 "priority": {
-                  "type": "integer"
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5
                 },
                 "expires_at": {
                   "type": "string",
-                  "format": "date"
+                  "format": "date-time"
                 }
               },
               "required": [
