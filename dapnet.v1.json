@@ -69,7 +69,10 @@
             }
           },
           "description": ""
-        }
+        },
+        "tags": [
+          "calls"
+        ]
       },
       "parameters": []
     },
@@ -289,7 +292,8 @@
             }
           },
           "description": ""
-        }
+        },
+        "description": ""
       },
       "parameters": []
     },
@@ -420,6 +424,68 @@
         },
         "operationId": "get-api-statistics"
       }
+    },
+    "/rubrics": {
+      "get": {
+        "summary": "Create",
+        "tags": [
+          "rubrics"
+        ],
+        "responses": {},
+        "operationId": "get-rubrics"
+      },
+      "put": {
+        "summary": "Create a rubric",
+        "operationId": "put-rubrics",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "rubrics"
+        ]
+      }
+    },
+    "/rubrics/{rubricId}/news": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "rubricId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get the news of a rubric",
+        "tags": [
+          "rubrics"
+        ],
+        "responses": {},
+        "operationId": "get-rubrics-rubricId-news"
+      }
+    },
+    "/rubrics/{rubricId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "rubricId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a rubric",
+        "tags": [
+          "rubrics"
+        ],
+        "responses": {},
+        "operationId": "get-rubrics-rubricId"
+      }
     }
   },
   "components": {
@@ -517,6 +583,9 @@
           "priority",
           "recipients",
           "distribution"
+        ],
+        "x-tags": [
+          "calls"
         ]
       },
       "Transmitter": {
@@ -624,6 +693,9 @@
           "owners",
           "usage",
           "timeslots"
+        ],
+        "x-tags": [
+          "transmitters"
         ]
       }
     },
