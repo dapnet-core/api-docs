@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install ReDoc
+      run: npm install redoc-cli
+
+    - name: Create public directory
+      run: mkdir public
+
+    - name: Run ReDoc
+      run: ./node_modules/.bin/redoc-cli bundle -o public/index.html dapnet.v1.json
+    
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
