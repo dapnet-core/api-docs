@@ -1,0 +1,638 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DAPNET API",
+    "version": "1.0",
+    "description": "",
+    "contact": {
+      "name": "DAPNET Core Developers",
+      "url": "http://github.com/dapnet-core/",
+      "email": "rwth-afu@online.de"
+    },
+    "license": {
+      "name": "GPLv3"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://dapnetdc2.db0sda.ampr.org",
+      "description": "DC2"
+    },
+    {
+      "url": "http://dapnetdc3.db0sda.ampr.org",
+      "description": "DC3"
+    }
+  ],
+  "paths": {
+    "/calls": {
+      "get": {
+        "summary": "List all calls",
+        "tags": [
+          "calls"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "operationId": "get-calls",
+        "description": "All recently published calls.",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Call"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-calls",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Creates and distributes a new call.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Call"
+              }
+            }
+          },
+          "description": ""
+        }
+      },
+      "parameters": []
+    },
+    "/calls/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a call",
+        "tags": [
+          "calls"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {}
+              }
+            },
+            "headers": {}
+          }
+        },
+        "operationId": "get-calls-id",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Call"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a call",
+        "operationId": "delete-calls-id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "parameters": [],
+        "tags": [
+          "calls"
+        ]
+      }
+    },
+    "/transmitters": {
+      "get": {
+        "summary": "List all transmitters",
+        "tags": [
+          "transmitters"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "offset": {
+                      "type": "integer"
+                    },
+                    "rows": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Transmitter"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-transmitters",
+        "requestBody": {},
+        "description": ""
+      },
+      "post": {
+        "summary": "Create a transmitter",
+        "operationId": "post-transmitters",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transmitter"
+              }
+            }
+          }
+        },
+        "tags": [
+          "transmitters"
+        ]
+      }
+    },
+    "/transmitters/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a transmitter",
+        "tags": [
+          "transmitters"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transmitter"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-transmitters-id",
+        "description": "",
+        "requestBody": {}
+      }
+    },
+    "/transmitters/_bootstrap": {
+      "post": {
+        "summary": "Bootstrap a transmitter connection",
+        "operationId": "post-transmitters-bootstrap",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timeslots": {
+                      "type": "array",
+                      "maxItems": 16,
+                      "minItems": 16,
+                      "items": {
+                        "type": "boolean"
+                      }
+                    },
+                    "nodes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "host": {
+                            "type": "string",
+                            "format": "hostname"
+                          },
+                          "reachable": {
+                            "type": "boolean"
+                          },
+                          "last_seen": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": [
+          "transmitter-connection"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "callsign": {
+                    "type": "string",
+                    "description": "Transmitter callsign"
+                  },
+                  "auth_key": {
+                    "type": "string",
+                    "description": "Secret authentication key"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      },
+      "parameters": []
+    },
+    "/transmitters/_heartbeat": {
+      "post": {
+        "summary": "Send a connection heartbeat",
+        "operationId": "post-transmitters-_heartbeat",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "transmitter-connection"
+        ]
+      }
+    },
+    "/api/statistics": {
+      "get": {
+        "summary": "Get the statistics",
+        "tags": [
+          "statistics"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "node": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "host"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "host": {
+                          "type": "string",
+                          "format": "hostname"
+                        }
+                      }
+                    },
+                    "calls": {
+                      "type": "object",
+                      "required": [
+                        "local",
+                        "remote"
+                      ],
+                      "properties": {
+                        "local": {
+                          "type": "integer"
+                        },
+                        "remote": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "transmitters": {
+                      "type": "object",
+                      "required": [
+                        "local",
+                        "remote"
+                      ],
+                      "properties": {
+                        "local": {
+                          "type": "integer"
+                        },
+                        "remote": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "nodes": {
+                      "type": "object",
+                      "required": [
+                        "reachable",
+                        "unreachable"
+                      ],
+                      "properties": {
+                        "reachable": {
+                          "type": "integer"
+                        },
+                        "unreachable": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "node",
+                    "calls",
+                    "transmitters",
+                    "nodes"
+                  ]
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "node": {
+                        "name": "db0sda-dc2",
+                        "host": "dapnetdc2.db0sda.ampr.org"
+                      },
+                      "calls": {
+                        "local": 523,
+                        "remote": 6324
+                      },
+                      "nodes": {
+                        "reachable": 8,
+                        "unreachable": 3
+                      },
+                      "transmitters": {
+                        "connected": {
+                          "local": 42,
+                          "remote": 543
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-api-statistics"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Call": {
+        "title": "Call",
+        "type": "object",
+        "x-examples": {},
+        "description": "",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Automatically generated UUID"
+          },
+          "data": {
+            "type": "string",
+            "description": "Payload of the call"
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Priority of the call, low (1) to high (5)"
+          },
+          "recipients": {
+            "type": "object",
+            "description": "Recipients of the call",
+            "properties": {
+              "pocsag": {
+                "type": "array",
+                "description": "List of pocsag addresses",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ric": {
+                      "type": "integer"
+                    },
+                    "function": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 3
+                    }
+                  }
+                }
+              },
+              "subscribers": {
+                "type": "array",
+                "description": "List of subscriber names",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "subscriber_groups": {
+                "type": "array",
+                "description": "List of subscriber groups",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "distribution": {
+            "type": "object",
+            "description": "Distribution targets of the call",
+            "properties": {
+              "transmitters": {
+                "type": "array",
+                "description": "List of targeted transmitters",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "transmitter_groups": {
+                "type": "array",
+                "description": "List of targeted transmitter groups",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "local": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Create a local call that is only forwarded to transmitters connected to the current node"
+          },
+          "expires_on": {
+            "type": "string",
+            "description": "Datetime after which the call is discarded"
+          }
+        },
+        "required": [
+          "data",
+          "priority",
+          "recipients",
+          "distribution"
+        ]
+      },
+      "Transmitter": {
+        "title": "Transmitter",
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Callsign"
+          },
+          "_rev": {
+            "type": "string",
+            "description": "Document Revision"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "auth_key": {
+            "type": "string",
+            "description": "Secret Authentication Key"
+          },
+          "coordinates": {
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "description": "[Latitude, Longitude]",
+            "items": {
+              "type": "number"
+            }
+          },
+          "power": {
+            "type": "integer",
+            "description": "Transmitter power in Watts"
+          },
+          "groups": {
+            "type": "array",
+            "description": "List of transmitter groups",
+            "items": {
+              "type": "string"
+            }
+          },
+          "owners": {
+            "type": "array",
+            "description": "List of owners",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "usage": {
+            "type": "string",
+            "enum": [
+              "personal",
+              "widerange"
+            ]
+          },
+          "aprs_broadcast": {
+            "type": "boolean"
+          },
+          "timeslots": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
+          },
+          "antenna": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "omni",
+                  "directional"
+                ]
+              },
+              "gain": {
+                "type": "integer"
+              },
+              "direction": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 360
+              }
+            }
+          },
+          "emergency_power": {
+            "type": "object",
+            "properties": {
+              "available": {
+                "type": "boolean"
+              },
+              "infinite": {
+                "type": "boolean"
+              },
+              "duration": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "required": [
+          "_id",
+          "enabled",
+          "auth_key",
+          "owners",
+          "usage",
+          "timeslots"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "HTTP Authentication": {
+        "type": "http",
+        "scheme": "basic",
+        "description": ""
+      }
+    }
+  }
+}
