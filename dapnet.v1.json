@@ -100,13 +100,13 @@
       },
       "parameters": []
     },
-    "/calls/{id}": {
+    "/calls/{callId}": {
       "parameters": [
         {
           "schema": {
             "type": "string"
           },
-          "name": "id",
+          "name": "callId",
           "in": "path",
           "required": true
         }
@@ -188,7 +188,17 @@
         },
         "operationId": "get-transmitters",
         "requestBody": {},
-        "description": ""
+        "description": "",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "owner",
+            "description": "Filter by owner"
+          }
+        ]
       },
       "post": {
         "summary": "Create a transmitter",
@@ -212,13 +222,13 @@
         ]
       }
     },
-    "/transmitters/{id}": {
+    "/transmitters/{transmitterId}": {
       "parameters": [
         {
           "schema": {
             "type": "string"
           },
-          "name": "id",
+          "name": "transmitterId",
           "in": "path",
           "required": true
         }
@@ -324,7 +334,7 @@
     "/transmitters/_heartbeat": {
       "post": {
         "summary": "Send a connection heartbeat",
-        "operationId": "post-transmitters-_heartbeat",
+        "operationId": "post-transmitters-heartbeat",
         "responses": {
           "200": {
             "description": "OK"
@@ -519,7 +529,7 @@
             }
           }
         },
-        "operationId": "get-rubrics-rubricId-news"
+        "operationId": "get-rubrics-news"
       }
     },
     "/rubrics/{rubricId}": {
@@ -539,7 +549,43 @@
           "rubrics"
         ],
         "responses": {},
-        "operationId": "get-rubrics-rubricId"
+        "operationId": "get-rubrics-id"
+      }
+    },
+    "/transmitters/_count": {
+      "get": {
+        "summary": "Get the number of transmitters",
+        "tags": [
+          "transmitters"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-transmitters-count",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "owner",
+            "description": "Filter by owner"
+          }
+        ]
       }
     }
   },
@@ -562,7 +608,6 @@
           "data": {
             "type": "string",
             "description": "Payload of the call",
-            "minLength": 1,
             "maxLength": 80
           },
           "priority": {
@@ -758,6 +803,7 @@
       "Rubric": {
         "title": "Rubrics",
         "type": "object",
+        "description": "",
         "properties": {
           "_id": {
             "type": "string",
@@ -768,13 +814,17 @@
             "description": "Document Revision"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "Long description of the rubric"
           },
           "label": {
-            "type": "string"
+            "type": "string",
+            "description": "Short label of the rubric, that is displayed in the rubric list of Skyper pagers.",
+            "maxLength": 11
           },
           "number": {
-            "type": "integer"
+            "type": "integer",
+            "description": ""
           },
           "function": {
             "type": "integer",
