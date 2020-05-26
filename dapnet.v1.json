@@ -566,7 +566,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "": {
+                    "count": {
                       "type": "integer"
                     }
                   }
@@ -681,13 +681,24 @@
           "expires_at": {
             "type": "string",
             "format": "date-time"
+          },
+          "created_by": {
+            "type": "string",
+            "description": "The user that created the call. Will be inserted automatically with the user used for authentication."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time of creation. Will be inserted automatically."
           }
         },
         "required": [
           "data",
           "priority",
           "recipients",
-          "distribution"
+          "distribution",
+          "created_by",
+          "created_at"
         ]
       },
       "Transmitter": {
