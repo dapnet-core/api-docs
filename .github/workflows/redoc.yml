@@ -18,7 +18,7 @@ jobs:
       run: mkdir public
 
     - name: Run ReDoc
-      run: ./node_modules/.bin/redoc-cli bundle -o public/index.html dapnet.v1.json
+      run: ./node_modules/.bin/redoc-cli bundle -o public/index.html dapnet.v2.json
     
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
