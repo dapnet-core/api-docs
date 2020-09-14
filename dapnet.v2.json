@@ -342,7 +342,24 @@
         },
         "tags": [
           "transmitter-connection"
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "callsign": {
+                    "type": "string"
+                  },
+                  "auth_key": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/statistics": {
