@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "DAPNET API",
-    "version": "1.0",
+    "version": "2.0",
     "description": "",
     "contact": {
       "name": "DAPNET Core Developers",
