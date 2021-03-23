@@ -1,5 +1,4 @@
-name: CI
-
+name: Redoc
 on:
   push:
     branches: [ master ]
