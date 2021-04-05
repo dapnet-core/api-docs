@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install ReDoc
-      run: npm install --rc redoc@latest
+      run: npm install --rc redoc-cli@latest
     - name: Create public directory
       run: mkdir public
     - name: Run ReDoc
