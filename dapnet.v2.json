@@ -123,7 +123,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "properties": {
+                    "": {
+                      "type": "string"
+                    }
+                  }
                 },
                 "examples": {}
               }
@@ -138,9 +142,11 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Call"
-              }
+              },
+              "examples": {}
             }
-          }
+          },
+          "description": ""
         }
       },
       "delete": {
@@ -473,7 +479,8 @@
             }
           }
         },
-        "operationId": "get-api-statistics"
+        "operationId": "get-api-statistics",
+        "parameters": []
       }
     },
     "/rubrics": {
@@ -603,6 +610,118 @@
             "description": "Filter by owner"
           }
         ]
+      }
+    },
+    "/transmitters/{transmitterId}/telemetry": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "transmitterId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get transmitter telemetry data",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "_type": {
+                      "type": "string"
+                    },
+                    "config": {
+                      "type": "object",
+                      "properties": {
+                        "software": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "version": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "timeslots": {
+                          "type": "array",
+                          "minItems": 16,
+                          "maxItems": 16,
+                          "items": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    },
+                    "hardware": {
+                      "type": "object",
+                      "properties": {
+                        "platform": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "messages": {
+                      "type": "object",
+                      "properties": {
+                        "queued": {
+                          "type": "array",
+                          "minItems": 5,
+                          "maxItems": 5,
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "sent": {
+                          "type": "array",
+                          "minItems": 5,
+                          "maxItems": 5,
+                          "items": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "node": {
+                      "type": "object",
+                      "properties": {
+                        "connected": {
+                          "type": "boolean"
+                        },
+                        "connected_since": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "port": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "onair": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-transmitter-telemetry",
+        "description": "Get a snapshot of the current telemetry of a transmitter."
       }
     }
   },
